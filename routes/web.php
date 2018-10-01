@@ -11,8 +11,6 @@
 |
  */
 
-Route::get('/', function () {
-    return 'Hello air';
-});
+Route::get('/', ['uses' => 'SensorController@show', 'as' => 'show']);
 
 Route::post('receive{extension}', ['uses' => 'SensorController@receive', 'as' => 'receive']);

@@ -18,7 +18,7 @@ class CreateSensorsValuesTable extends Migration
          */
         Schema::create('sensors_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sensor_id')->unsigned();
+            $table->integer('sensor_id')->unsigned()->index();
             $table->decimal('pm10', 10, 2);
             $table->decimal('pm2_5', 10, 2);
             $table->decimal('temperature', 10, 2);
