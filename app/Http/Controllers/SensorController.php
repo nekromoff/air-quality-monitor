@@ -68,7 +68,7 @@ class SensorController extends Controller
     public function show(Request $request)
     {
         $sensors = Sensor::get()->keyBy('id');
-        $averages = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('sensor_id', 'day')->get()->keyBy('sensor_id');
+        $averages = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
         return view('index', ['sensors' => $sensors, 'averages' => $averages]);
     }
 }

@@ -15,12 +15,12 @@
         <div class="row">
             <h1>Monitoring kvality vzduchu v Bratislave</h1>
             <p>Senzory sú rozmiestnené v rôznych lokalitách v meste a poskytujú každých 5 minút meranie prachových častíc PM 2,5 a PM 10, teploty, vlhkosti a tlaku vzduchu.</p>
-            @foreach ($averages as $sensor_id=>$item)
+            @foreach ($averages as $item)
                 <div class="col-sm-3">
                     <div class="card">
                       <div class="card-body">
                         <h5 class="card-title">{{$item->day}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Senzor {{$sensors[$sensor_id]->number}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Senzor {{$sensors[$item->sensor_id]->number}}</h6>
                         <p class="card-text">
                             Denné priemerné hodnoty:
                             <ul>
