@@ -34,7 +34,7 @@ class SensorController extends Controller
             return;
         }
         $sensor_number = $content->esp8266id;
-        Sensor::updateOrCreate(['number' => $sensor_number], ['location' => '']);
+        Sensor::updateOrCreate(['number' => $sensor_number]);
         $pm10 = 0;
         $pm2_5 = 0;
         $temperature = 0;
@@ -69,6 +69,7 @@ class SensorController extends Controller
     {
         $sensors = Sensor::get()->keyBy('id');
         $averages = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
-        return view('index', ['sensors' => $sensors, 'averages' => $averages]);
+        $averages_chart = SensorsValue::selectRaw('AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('day')->get()->keyBy('day');
+        return view('index', ['sensors' => $sensors, 'averages' => $averages, 'averages_chart' => $averages_chart]);
     }
 }
