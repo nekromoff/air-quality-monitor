@@ -68,8 +68,8 @@ class SensorController extends Controller
     public function show(Request $request)
     {
         $sensors = Sensor::get()->keyBy('id');
-        $averages = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
-        $averages_chart = SensorsValue::selectRaw('AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, DATE(created_at) as day')->orderBy('day', 'desc')->groupBy('day')->get()->keyBy('day');
+        $averages = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->where('created_at', '>=', date('Y-m-d', time() - 86400 * 14))->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
+        $averages_chart = SensorsValue::selectRaw('AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, DATE(created_at) as day')->orderBy('day', 'asc')->groupBy('day')->get()->keyBy('day');
         return view('index', ['sensors' => $sensors, 'averages' => $averages, 'averages_chart' => $averages_chart]);
     }
 }

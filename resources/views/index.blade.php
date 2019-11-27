@@ -13,12 +13,20 @@
         <div class="row">
             <h1>Monitoring kvality vzduchu v Bratislave</h1>
             <p>Senzory sú rozmiestnené v rôznych lokalitách v meste a poskytujú každých 5 minút meranie prachových častíc PM 2,5 a PM 10, teploty, vlhkosti a tlaku vzduchu.</p>
+        </div>
+        <div class="row">
             <div id="chart"></div>
+        </div>
+        <div class="row">
+            <h2>Detailné údaje za posledných 14 dní</h2>
+        </div>
+        <div class="row">
             @foreach ($averages as $item)
                 <div class="col-sm-3">
                     <div class="card">
                       <div class="card-body">
                         <h5 class="card-title">{{$item->day}}</h5>
+                        <h6 class="card-subtitle mb-2 text-info">{{$sensors[$item->sensor_id]->location}}</h6>
                         <h6 class="card-subtitle mb-2 text-muted">Senzor {{$sensors[$item->sensor_id]->number}}</h6>
                         <p class="card-text">
                             Denné priemerné hodnoty:
@@ -66,15 +74,17 @@
           title: 'Kvalita vzduchu po dňoch'
         },
         width: 1200,
-        height: 500,
+        height: 450,
         series: {
           // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'PM'},
+          0: {axis: 'PM2_5'},
+          1: {axis: 'PM10'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
           y: {
-            PM: {label: 'Prachové častice'},
+            PM2_5: {label: 'Prachové častice PM2,5'},
+            PM10: {label: 'Prachové častice PM10'},
           }
         }
       };
@@ -82,8 +92,6 @@
       function drawMaterialChart() {
         var materialChart = new google.charts.Line(chartDiv);
         materialChart.draw(data, materialOptions);
-        button.innerText = 'Change to Classic';
-        button.onclick = drawClassicChart;
       }
 
       drawMaterialChart();
@@ -94,9 +102,6 @@
         .chart {
           width: 100%;
           min-height: 450px;
-        }
-        .row {
-          margin:0 !important;
         }
     </style>
   </body>
