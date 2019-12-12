@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Sensor;
 use App\SensorsValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SensorController extends Controller
 {
@@ -68,12 +69,17 @@ class SensorController extends Controller
     public function show(Request $request)
     {
         $sensors = Sensor::get()->keyBy('id');
-        $averages['daily'] = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->where('created_at', '>=', date('Y-m-d', time() - 86400 * 14))->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
-        $averages['chart'] = SensorsValue::selectRaw('AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, DATE(created_at) as day')->where('pm10', '>', 0)->where('pm2_5', '>', 0)->orderBy('day', 'asc')->groupBy('day')->get()->keyBy('day');
-        $averages['yearly_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', strtotime('first day of this year')))->first()->pm10;
-        $averages['yearly_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', strtotime('first day of this year')))->first()->pm2_5;
-        $averages['24h_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 86400))->first()->pm10;
-        $averages['24h_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 86400))->first()->pm2_5;
+        if (!Cache::has('averages')) {
+            $averages['daily'] = SensorsValue::selectRaw('sensor_id, AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, AVG(temperature) as temperature, AVG(humidity) as humidity, DATE(created_at) as day')->where('created_at', '>=', date('Y-m-d', time() - 86400 * 14))->orderBy('day', 'desc')->groupBy('day', 'sensor_id')->get();
+            $averages['chart'] = SensorsValue::selectRaw('AVG(pm10) as pm10, AVG(pm2_5) as pm2_5, DATE(created_at) as day')->where('pm10', '>', 0)->where('pm2_5', '>', 0)->orderBy('day', 'asc')->groupBy('day')->get()->keyBy('day');
+            $averages['yearly_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 365 * 86400))->first()->pm10;
+            $averages['yearly_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 365 * 86400))->first()->pm2_5;
+            $averages['24h_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 86400))->first()->pm10;
+            $averages['24h_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', date('Y-m-d H:i:s', time() - 86400))->first()->pm2_5;
+            Cache::put('averages', $averages, 5);
+        } else {
+            $averages = Cache::get('averages');
+        }
         return view('index', ['sensors' => $sensors, 'averages' => $averages]);
     }
 }
