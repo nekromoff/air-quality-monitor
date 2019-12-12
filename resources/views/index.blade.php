@@ -69,8 +69,8 @@
         <div class="row my-3">
             <p>Podľa štandardov Svetovej zdravotníckej organizácie (WHO) nesmie:</p>
             <ul>
-                <li>pre <strong>PM2,5</strong> prekročiť ročný priemer 10 μg/m3 alebo 24 hodinový priemer 25 μg/m3</li>
-                <li>pre <strong>PM10</strong> prekročiť ročný priemer 20 μg/m3 alebo 24 hodinový priemer 50 μg/m3</li>
+                <li><strong>PM 2,5</strong> prekročiť ročný priemer 10 μg/m3 alebo 24 hodinový priemer 25 μg/m3</li>
+                <li><strong>PM 10</strong> prekročiť ročný priemer 20 μg/m3 alebo 24 hodinový priemer 50 μg/m3</li>
             </ul>
         </div>
         <div class="row">
@@ -91,11 +91,19 @@
                         <p class="card-text">
                             Denné priemerné hodnoty:
                             <ul>
-                                <li>PM 10: <span class="badge badge-secondary">{{round($item->pm10,2)}}</span></li>
-                                <li>PM 2,5: <span class="badge badge-secondary">{{round($item->pm2_5,2)}}</span></li>
-                                <li>Teplota: <span class="badge badge-secondary">{{round($item->temperature,2)}} °C</span></li>
-                                <li>Vlhkosť: <span class="badge badge-secondary">{{round($item->humidity,2)}}%</span></li>
-                                @if ($item->pressure)
+                                @if ($item->pm10!=0)
+                                    <li>PM 10: <span class="badge @if ($item->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($item->pm10,2,',',' ')}} μg/m3</span></li>
+                                @endif
+                                @if ($item->pm2_5!=0)
+                                    <li>PM 2,5: <span class="badge @if ($item->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($item->pm2_5,2,',',' ')}} μg/m3</span></li>
+                                @endif
+                                @if ($item->temperature!=0)
+                                    <li>Teplota: <span class="badge badge-secondary">{{number_format($item->temperature,2,',',' ')}} °C</span></li>
+                                @endif
+                                @if ($item->humidity!=0)
+                                    <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($item->humidity,2,',',' ')}}%</span></li>
+                                @endif
+                                @if ($item->pressure!=0)
                                     <li>Tlak: <span class="badge badge-secondary">{{$item->pressure}}</span></li>
                                 @endif
                             </ul>
