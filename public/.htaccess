@@ -1,3 +1,7 @@
+## !!! WARNING !!!
+## *NEVER* add HTTPS redirect here, UNLESS all the sensors are configured to speak to you via HTTPS URL
+## Otherwise this redirect will result in permanent data loss (data not received, sensor redirected on contact)
+## !!! WARNING !!!
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -19,3 +23,33 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+#Gzip
+<ifmodule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+</ifmodule>
+#End Gzip
+# BEGIN Expire headers
+<ifModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 5 minutes"
+    ExpiresByType image/x-icon "access plus 2592000 seconds"
+    ExpiresByType image/jpeg "access plus 2592000 seconds"
+    ExpiresByType image/png "access plus 2592000 seconds"
+    ExpiresByType image/gif "access plus 2592000 seconds"
+    ExpiresByType image/svg+xml "access plus 2592000 seconds"
+    ExpiresByType application/x-font-ttf "access plus 2592000 seconds"
+    ExpiresByType application/x-font-truetype "access plus 2592000 seconds"
+    ExpiresByType application/x-font-opentype "access plus 2592000 seconds"
+    ExpiresByType application/x-font-woff "access plus 2592000 seconds"
+    ExpiresByType application/font-woff2 "access plus 2592000 seconds"
+    ExpiresByType application/vnd.ms-fontobject "access plus 2592000 seconds"
+    ExpiresByType application/font-sfnt "access plus 2592000 seconds"
+    ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
+    ExpiresByType text/css "access plus 604800 seconds"
+    ExpiresByType text/javascript "access plus 216000 seconds"
+    ExpiresByType application/javascript "access plus 216000 seconds"
+    ExpiresByType application/x-javascript "access plus 216000 seconds"
+    ExpiresByType text/html "access plus 5 minutes"
+    ExpiresByType application/xhtml+xml "access plus 600 seconds"
+</ifModule>
+# END Expire headers

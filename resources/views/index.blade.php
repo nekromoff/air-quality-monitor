@@ -78,41 +78,104 @@
             <div id="chart-pm10" class="chart"></div>
         </div>
         <div class="row">
-            <h2>Detailné údaje za posledných 14 dní</h2>
+            <h2>Kvalita vzduchu podľa lokalít</h2>
         </div>
-        <div class="row">
-            @foreach ($averages['daily'] as $item)
-                <div class="col-sm-3">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">{{$item->day}}</h5>
-                        <h6 class="card-subtitle mb-2 text-info">{{$sensors[$item->sensor_id]->location}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Senzor {{$sensors[$item->sensor_id]->number}}</h6>
-                        <p class="card-text">
-                            Denné priemerné hodnoty:
-                            <ul>
-                                @if ($item->pm10!=0)
-                                    <li>PM 10: <span class="badge @if ($item->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($item->pm10,2,',',' ')}} μg/m3</span></li>
-                                @endif
-                                @if ($item->pm2_5!=0)
-                                    <li>PM 2,5: <span class="badge @if ($item->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($item->pm2_5,2,',',' ')}} μg/m3</span></li>
-                                @endif
-                                @if ($item->temperature!=0)
-                                    <li>Teplota: <span class="badge badge-secondary">{{number_format($item->temperature,2,',',' ')}} °C</span></li>
-                                @endif
-                                @if ($item->humidity!=0)
-                                    <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($item->humidity,2,',',' ')}}%</span></li>
-                                @endif
-                                @if ($item->pressure!=0)
-                                    <li>Tlak: <span class="badge badge-secondary">{{$item->pressure}}</span></li>
-                                @endif
-                            </ul>
-                        </p>
-                      </div>
+        @foreach ($sensors as $sensor)
+            @if (isset($averages['sensors']['today'][$sensor->id]) and isset($averages['sensors']['week'][$sensor->id]))
+                <div class="row mt-5">
+                    <div class="col-sm-12">
+                        <h3>
+                            @if ($sensor->location)
+                                {{$sensor->location}}
+                            @else
+                                Neuvedená lokalita
+                            @endif
+                            <span class="badge badge-info">{{$sensor->number}}</span></h3>
+                        </h3>
                     </div>
                 </div>
-            @endforeach
-        </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Dnešné hodnoty</h5>
+                            <p class="card-text">
+                                <ul>
+                                    @if ($averages['sensors']['today'][$sensor->id]->pm10!=0)
+                                        <li>PM 10: <span class="badge @if ($averages['sensors']['today'][$sensor->id]->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['today'][$sensor->id]->pm10,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['today'][$sensor->id]->pm2_5!=0)
+                                        <li>PM 2,5: <span class="badge @if ($averages['sensors']['today'][$sensor->id]->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['today'][$sensor->id]->pm2_5,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['today'][$sensor->id]->temperature!=0)
+                                        <li>Teplota: <span class="badge badge-secondary">{{number_format($averages['sensors']['today'][$sensor->id]->temperature,2,',',' ')}} °C</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['today'][$sensor->id]->humidity!=0)
+                                        <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['today'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['today'][$sensor->id]->pressure!=0)
+                                        <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['today'][$sensor->id]->pressure}}</span></li>
+                                    @endif
+                                </ul>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Týždenné hodnoty</h5>
+                            <p class="card-text">
+                                <ul>
+                                    @if ($averages['sensors']['week'][$sensor->id]->pm10!=0)
+                                        <li>PM 10: <span class="badge @if ($averages['sensors']['week'][$sensor->id]->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['week'][$sensor->id]->pm10,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['week'][$sensor->id]->pm2_5!=0)
+                                        <li>PM 2,5: <span class="badge @if ($averages['sensors']['week'][$sensor->id]->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['week'][$sensor->id]->pm2_5,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['week'][$sensor->id]->temperature!=0)
+                                        <li>Teplota: <span class="badge badge-secondary">{{number_format($averages['sensors']['week'][$sensor->id]->temperature,2,',',' ')}} °C</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['week'][$sensor->id]->humidity!=0)
+                                        <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['week'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['week'][$sensor->id]->pressure!=0)
+                                        <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['week'][$sensor->id]->pressure}}</span></li>
+                                    @endif
+                                </ul>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Mesačné hodnoty</h5>
+                            <p class="card-text">
+                                <ul>
+                                    @if ($averages['sensors']['month'][$sensor->id]->pm10!=0)
+                                        <li>PM 10: <span class="badge @if ($averages['sensors']['month'][$sensor->id]->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['month'][$sensor->id]->pm10,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['month'][$sensor->id]->pm2_5!=0)
+                                        <li>PM 2,5: <span class="badge @if ($averages['sensors']['month'][$sensor->id]->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['month'][$sensor->id]->pm2_5,2,',',' ')}} μg/m3</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['month'][$sensor->id]->temperature!=0)
+                                        <li>Teplota: <span class="badge badge-secondary">{{number_format($averages['sensors']['month'][$sensor->id]->temperature,2,',',' ')}} °C</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['month'][$sensor->id]->humidity!=0)
+                                        <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['month'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
+                                    @endif
+                                    @if ($averages['sensors']['month'][$sensor->id]->pressure!=0)
+                                        <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['month'][$sensor->id]->pressure}}</span></li>
+                                    @endif
+                                </ul>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
         <footer class="row mt-5 bg-light">
             <div class="col-sm">
                 Službu prevádzkuje: <a href="https://cyklokoalicia.sk"><img src="https://cyklokoalicia.sk/wp-content/themes/cyklokoalicia-2/img/cyklokoalicia_logo.svg" alt="Logo Cyklokoalícia"></a><br>Podporené z grantu Clean Air Initiative.
@@ -134,21 +197,25 @@
 
       var data_pm2_5 = new google.visualization.DataTable();
       data_pm2_5.addColumn('string', 'Deň');
-      data_pm2_5.addColumn('number', "PM 2,5");
+      data_pm2_5.addColumn('number', 'Posledných 12 mesiacov');
+      data_pm2_5.addColumn('number', '12 mesiacov predtým');
+      data_pm2_5.addColumn('number', 'Limitná hodnota (WHO)');
 
       data_pm2_5.addRows([
-        @foreach ($averages['chart'] as $item)
-            ['{{$item->day}}',  {{round($item->pm2_5,2)}}]@if (!$loop->last),@endif
+        @foreach ($averages['chart']['current'] as $key=>$item)
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm2_5}}, {{$averages['chart']['previous'][$key]->pm2_5}},10]@if (!$loop->last),@endif
         @endforeach
       ]);
 
       var data_pm10 = new google.visualization.DataTable();
       data_pm10.addColumn('string', 'Deň');
-      data_pm10.addColumn('number', "PM 10");
+      data_pm10.addColumn('number', 'Posledných 12 mesiacov');
+      data_pm10.addColumn('number', '12 mesiacov predtým');
+      data_pm10.addColumn('number', 'Limitná hodnota (WHO)');
 
       data_pm10.addRows([
-        @foreach ($averages['chart'] as $item)
-            ['{{$item->day}}',  {{round($item->pm10,2)}}]@if (!$loop->last),@endif
+        @foreach ($averages['chart']['current'] as $key=>$item)
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm10}}, {{$averages['chart']['previous'][$key]->pm10}},20]@if (!$loop->last),@endif
         @endforeach
       ]);
 
@@ -160,23 +227,12 @@
         height: 300,
         series: {
           // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'PM2_5'},
-          1: { axis: 'threshold',
-                type: "steppedArea",
-                color: '#FF0000',
-                visibleInLegend: false,
-                areaOpacity: 0,
-                enableInteractivity: false
-            }
+          0: {axis: 'PM2_5'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
           y: {
             PM2_5: {label: 'µg/m³'},
-            threshold: {
-                ticks: [250], //use this if you want to show the target value
-                baseline: 7 //this shifts the base line to 250
-             }
           }
         }
       };
