@@ -196,7 +196,7 @@
       var chart_div_pm10 = document.getElementById('chart-pm10');
 
       var data_pm2_5 = new google.visualization.DataTable();
-      data_pm2_5.addColumn('string', 'Deň');
+      data_pm2_5.addColumn('string', 'Mesiac a rok');
       data_pm2_5.addColumn('number', 'Posledných 12 mesiacov');
       data_pm2_5.addColumn('number', '12 mesiacov predtým');
       data_pm2_5.addColumn('number', 'Limitná hodnota (WHO)');
@@ -208,7 +208,7 @@
       ]);
 
       var data_pm10 = new google.visualization.DataTable();
-      data_pm10.addColumn('string', 'Deň');
+      data_pm10.addColumn('string', 'Mesiac a rok');
       data_pm10.addColumn('number', 'Posledných 12 mesiacov');
       data_pm10.addColumn('number', '12 mesiacov predtým');
       data_pm10.addColumn('number', 'Limitná hodnota (WHO)');
@@ -221,7 +221,7 @@
 
       var options_pm2_5 = {
         chart: {
-          title: 'Prachové častice PM 2,5 (znečistenie vzduchu po dňoch)'
+          title: 'Prachové častice PM 2,5 (znečistenie vzduchu po mesiacoch)'
         },
         width: 1200,
         height: 300,
@@ -239,7 +239,7 @@
 
       var options_pm10 = {
         chart: {
-          title: 'Prachové častice PM 10 (znečistenie vzduchu po dňoch)'
+          title: 'Prachové častice PM 10 (znečistenie vzduchu po mesiacoch)'
         },
         width: 1200,
         height: 300,
