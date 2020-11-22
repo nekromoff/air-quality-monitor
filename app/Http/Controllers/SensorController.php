@@ -69,21 +69,21 @@ class SensorController extends Controller
 
     public function show(Request $request)
     {
-        $previous_from=Carbon::today()->subMonths(23);
-        $previous_to=Carbon::today()->subMonths(12);
-        $current_from=Carbon::today()->subMonths(11);
+        $previous_from = Carbon::today()->subMonths(23);
+        $previous_to = Carbon::today()->subMonths(12);
+        $current_from = Carbon::today()->subMonths(11);
         $sensors = Sensor::orderBy('location')->get()->keyBy('id');
         if (!Cache::has('averages')) {
             $averages['sensors']['today'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today())->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['week'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subDays(6))->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['month'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subMonth())->groupBy('sensor_id')->get()->keyBy('sensor_id');
             //select  FROM sensors_values GROUP BY month;
-            $averages['chart']['previous'] = SensorsValue::selectRaw("AVG(pm2_5) as pm2_5,AVG(pm10) as pm10,DATE_FORMAT(created_at, '%m/%Y') as yearmonth,MONTH(created_at) as keyed,DATE_FORMAT(created_at, '%Y%m') as ordering")->where('created_at','>',$previous_from)->where('created_at','<',$previous_to)->where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('ordering', 'asc')->groupBy('ordering')->get()->keyBy('keyed');
-            $averages['chart']['current'] = SensorsValue::selectRaw("AVG(pm2_5) as pm2_5,AVG(pm10) as pm10,DATE_FORMAT(created_at, '%m/%Y') as yearmonth,MONTH(created_at) as keyed,DATE_FORMAT(created_at, '%Y%m') as ordering")->where('created_at','>',$current_from)->where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('ordering', 'asc')->groupBy('ordering')->get()->keyBy('keyed');
+            $averages['chart']['previous'] = SensorsValue::selectRaw("AVG(pm2_5) as pm2_5,AVG(pm10) as pm10,DATE_FORMAT(created_at, '%m/%Y') as yearmonth,MONTH(created_at) as keyed,DATE_FORMAT(created_at, '%Y%m') as ordering")->where('created_at', '>', $previous_from)->where('created_at', '<', $previous_to)->where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('ordering', 'asc')->groupBy('ordering')->get()->keyBy('keyed');
+            $averages['chart']['current'] = SensorsValue::selectRaw("AVG(pm2_5) as pm2_5,AVG(pm10) as pm10,DATE_FORMAT(created_at, '%m/%Y') as yearmonth,MONTH(created_at) as keyed,DATE_FORMAT(created_at, '%Y%m') as ordering")->where('created_at', '>', $current_from)->where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('ordering', 'asc')->groupBy('ordering')->get()->keyBy('keyed');
             $averages['yearly_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', $current_from)->first()->pm10;
             $averages['yearly_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', $current_from)->first()->pm2_5;
-            $averages['24h_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', $current_from)->first()->pm10;
-            $averages['24h_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', $current_from)->first()->pm2_5;
+            $averages['24h_10'] = SensorsValue::selectRaw('AVG(pm10) as pm10')->where('pm10', '>', 0)->where('created_at', '>', Carbon::now()->subHours(24))->first()->pm10;
+            $averages['24h_2_5'] = SensorsValue::selectRaw('AVG(pm2_5) as pm2_5')->where('pm2_5', '>', 0)->where('created_at', '>', Carbon::now()->subHours(24))->first()->pm2_5;
             Cache::put('averages', $averages, 5);
         } else {
             $averages = Cache::get('averages');
