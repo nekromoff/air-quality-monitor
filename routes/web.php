@@ -11,6 +11,6 @@
 |
  */
 
-Route::get('/', ['uses' => 'SensorController@show', 'as' => 'show']);
+Route::get('/', ['uses' => 'SensorController@show', 'as' => 'show'])->middleware('cache.headers:public;max_age=3600;etag');
 
 Route::post('receive{extension}', ['uses' => 'SensorController@receive', 'as' => 'receive']);
