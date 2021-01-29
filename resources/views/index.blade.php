@@ -209,7 +209,7 @@
 
       data_pm2_5.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
-            ['{{$item->yearmonth}}\n@if (isset($averages['chart']['previous'][$key])){{$averages['chart']['previous'][$key]->yearmonth}}@else0@endif',  {{$item->pm2_5}}, @if(isset($averages['chart']['previous'][$key]->pm2_5)){{$averages['chart']['previous'][$key]->pm2_5}}@else0@endif,10]@if (!$loop->last),@endif
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm2_5}}, {{$averages['chart']['previous'][$key]->pm2_5}},10]@if (!$loop->last),@endif
         @endforeach
       ]);
 
@@ -221,7 +221,7 @@
 
       data_pm10.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
-            ['{{$item->yearmonth}}\n@if (isset($averages['chart']['previous'][$key])){{$averages['chart']['previous'][$key]->yearmonth}}@else0@endif',  {{$item->pm10}}, @if(isset($averages['chart']['previous'][$key]->pm10)){{$averages['chart']['previous'][$key]->pm10}}@else0@endif, 20]@if (!$loop->last),@endif
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm10}}, {{$averages['chart']['previous'][$key]->pm10}},20]@if (!$loop->last),@endif
         @endforeach
       ]);
 

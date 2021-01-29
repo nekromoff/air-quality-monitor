@@ -69,9 +69,9 @@ class SensorController extends Controller
 
     public function show(Request $request)
     {
-        $previous_from = Carbon::today()->subMonths(23);
-        $previous_to = Carbon::today()->subMonths(12)->addDay(1);
-        $current_from = Carbon::today()->subMonths(11);
+        $previous_from = Carbon::today()->startOfMonth()->subMonths(23);
+        $previous_to = Carbon::today()->startOfMonth()->subMonths(12)->addDay(1);
+        $current_from = Carbon::today()->startOfMonth()->subMonths(11);
         $sensors = Sensor::orderBy('location')->get()->keyBy('id');
         if (!Cache::has('averages')) {
             $averages['sensors']['today'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today())->groupBy('sensor_id')->get()->keyBy('sensor_id');
