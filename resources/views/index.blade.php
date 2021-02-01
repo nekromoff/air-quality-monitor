@@ -233,7 +233,7 @@
         height: 300,
         series: {
           // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'PM2_5'}
+          0: {axis: 'PM2_5'},
           1: {axis: 'PM2_5'}
         },
         axes: {
@@ -252,7 +252,7 @@
         height: 300,
         series: {
           // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'PM10'}
+          0: {axis: 'PM10'},
           1: {axis: 'PM10'}
         },
         axes: {
