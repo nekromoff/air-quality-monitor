@@ -205,8 +205,8 @@
       data_pm2_5.addColumn('string', 'Mesiac a rok');
       data_pm2_5.addColumn('number', 'Aktuálne');
       data_pm2_5.addColumn('number', 'Medziročné porovnanie');
-      data_pm2_5.addColumn('number', 'Limitná hodnota (WHO)');
-      data_pm2_5.addColumn('number', 'Ročný priemer');
+      data_pm2_5.addColumn('number', 'Limitná hodnota (WHO) = 10,0 µg/m³');
+      data_pm2_5.addColumn('number', 'Ročný priemer = {{number_format($averages['yearly_2_5'],2,',',' ')}} µg/m³');
 
       data_pm2_5.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
@@ -218,8 +218,8 @@
       data_pm10.addColumn('string', 'Mesiac a rok');
       data_pm10.addColumn('number', 'Aktuálne');
       data_pm10.addColumn('number', 'Medziročné porovnanie');
-      data_pm10.addColumn('number', 'Limitná hodnota (WHO)');
-      data_pm10.addColumn('number', 'Ročný priemer');
+      data_pm10.addColumn('number', 'Limitná hodnota (WHO) = 20 µg/m³');
+      data_pm2_5.addColumn('number', 'Ročný priemer = {{number_format($averages['yearly_10'],2,',',' ')}} µg/m³');
 
       data_pm10.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
