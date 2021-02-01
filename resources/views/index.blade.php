@@ -204,7 +204,7 @@
       var data_pm2_5 = new google.visualization.DataTable();
       data_pm2_5.addColumn('string', 'Mesiac a rok');
       data_pm2_5.addColumn('number', 'Posledných 12 mesiacov');
-      data_pm2_5.addColumn('number', '12 mesiacov predtým');
+      data_pm2_5.addColumn('number', 'Rok predtým');
       data_pm2_5.addColumn('number', 'Limitná hodnota (WHO)');
 
       data_pm2_5.addRows([
@@ -216,7 +216,7 @@
       var data_pm10 = new google.visualization.DataTable();
       data_pm10.addColumn('string', 'Mesiac a rok');
       data_pm10.addColumn('number', 'Posledných 12 mesiacov');
-      data_pm10.addColumn('number', '12 mesiacov predtým');
+      data_pm10.addColumn('number', 'Rok predtým');
       data_pm10.addColumn('number', 'Limitná hodnota (WHO)');
 
       data_pm10.addRows([
@@ -234,6 +234,7 @@
         series: {
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM2_5'}
+          1: {axis: 'PM2_5'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
@@ -252,6 +253,7 @@
         series: {
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM10'}
+          1: {axis: 'PM10'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
