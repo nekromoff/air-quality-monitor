@@ -219,7 +219,7 @@
       data_pm10.addColumn('number', 'Aktuálne');
       data_pm10.addColumn('number', 'Medziročné porovnanie');
       data_pm10.addColumn('number', 'Limitná hodnota (WHO) = 20 µg/m³');
-      data_pm2_5.addColumn('number', 'Ročný priemer = {{number_format($averages['yearly_10'],2,',',' ')}} µg/m³');
+      data_pm10.addColumn('number', 'Ročný priemer = {{number_format($averages['yearly_10'],2,',',' ')}} µg/m³');
 
       data_pm10.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
@@ -238,7 +238,8 @@
           0: {axis: 'PM2_5'},
           1: {axis: 'PM2_5'},
           2: {axis: 'PM2_5'},
-          3: {axis: 'PM2_5'}
+          3: {axis: 'PM2_5'},
+          4: {axis: 'PM2_5'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
@@ -259,7 +260,8 @@
           0: {axis: 'PM10'},
           1: {axis: 'PM10'},
           2: {axis: 'PM10'},
-          3: {axis: 'PM10'}
+          3: {axis: 'PM10'},
+          4: {axis: 'PM10'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
