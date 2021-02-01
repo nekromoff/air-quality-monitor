@@ -234,7 +234,8 @@
         series: {
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM2_5'},
-          1: {axis: 'PM2_5'}
+          1: {axis: 'PM2_5'},
+          2: {axis: 'PM2_5'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
@@ -253,7 +254,8 @@
         series: {
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM10'},
-          1: {axis: 'PM10'}
+          1: {axis: 'PM10'},
+          2: {axis: 'PM10'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
