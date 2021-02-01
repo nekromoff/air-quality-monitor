@@ -203,25 +203,27 @@
 
       var data_pm2_5 = new google.visualization.DataTable();
       data_pm2_5.addColumn('string', 'Mesiac a rok');
-      data_pm2_5.addColumn('number', 'Posledných 12 mesiacov');
-      data_pm2_5.addColumn('number', 'Rok predtým');
+      data_pm2_5.addColumn('number', 'Aktuálne');
+      data_pm2_5.addColumn('number', 'Medziročné porovnanie');
       data_pm2_5.addColumn('number', 'Limitná hodnota (WHO)');
+      data_pm2_5.addColumn('number', 'Ročný priemer');
 
       data_pm2_5.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
-            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm2_5}}, {{$averages['chart']['previous'][$key]->pm2_5}},10]@if (!$loop->last),@endif
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm2_5}}, {{$averages['chart']['previous'][$key]->pm2_5}},10,{{$averages['yearly_2_5']}}]@if (!$loop->last),@endif
         @endforeach
       ]);
 
       var data_pm10 = new google.visualization.DataTable();
       data_pm10.addColumn('string', 'Mesiac a rok');
-      data_pm10.addColumn('number', 'Posledných 12 mesiacov');
-      data_pm10.addColumn('number', 'Rok predtým');
+      data_pm10.addColumn('number', 'Aktuálne');
+      data_pm10.addColumn('number', 'Medziročné porovnanie');
       data_pm10.addColumn('number', 'Limitná hodnota (WHO)');
+      data_pm10.addColumn('number', 'Ročný priemer');
 
       data_pm10.addRows([
         @foreach ($averages['chart']['current'] as $key=>$item)
-            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm10}}, {{$averages['chart']['previous'][$key]->pm10}},20]@if (!$loop->last),@endif
+            ['{{$item->yearmonth}}\n{{$averages['chart']['previous'][$key]->yearmonth}}',  {{$item->pm10}}, {{$averages['chart']['previous'][$key]->pm10}},20,{{$averages['yearly_10']}}]@if (!$loop->last),@endif
         @endforeach
       ]);
 
@@ -235,7 +237,8 @@
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM2_5'},
           1: {axis: 'PM2_5'},
-          2: {axis: 'PM2_5'}
+          2: {axis: 'PM2_5'},
+          3: {axis: 'PM2_5'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
@@ -255,7 +258,8 @@
           // Gives each series an axis name that matches the Y-axis below.
           0: {axis: 'PM10'},
           1: {axis: 'PM10'},
-          2: {axis: 'PM10'}
+          2: {axis: 'PM10'},
+          3: {axis: 'PM10'}
         },
         axes: {
           // Adds labels to each axis; they don't have to match the axis names.
