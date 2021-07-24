@@ -29,6 +29,7 @@ class SensorController extends Controller
      */
     public function receive(Request $request)
     {
+        $banned_sensors = config('sensors.banned');
         date_default_timezone_set('Europe/Bratislava');
         $content = json_decode(request()->getContent());
         // ignore invalid objects
@@ -36,6 +37,10 @@ class SensorController extends Controller
             return;
         }
         $sensor_number = $content->esp8266id;
+        // skip banned sensors
+        if (is_array($banned_sensors) and in_array($sensor_number, $banned_sensors)) {
+            return 'sorry, you have been banned';
+        }
         Sensor::updateOrCreate(['number' => $sensor_number]);
         $pm10 = 0;
         $pm2_5 = 0;
