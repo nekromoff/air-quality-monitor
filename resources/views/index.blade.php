@@ -203,7 +203,7 @@
 
       var data_pm2_5 = new google.visualization.DataTable();
       data_pm2_5.addColumn('string', 'Mesiac a rok');
-      data_pm2_5.addColumn('number', 'Aktuálne');
+      data_pm2_5.addColumn('number', 'Aktuálny rok');
       data_pm2_5.addColumn('number', 'Medziročné porovnanie');
       data_pm2_5.addColumn('number', 'Limitná hodnota (WHO) = 10,0 µg/m³');
       data_pm2_5.addColumn('number', 'Ročný priemer = {{number_format($averages['yearly_2_5'],2,',',' ')}} µg/m³');
