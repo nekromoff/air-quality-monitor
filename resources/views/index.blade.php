@@ -95,6 +95,34 @@
                     </div>
                 </div>
                 <div class="row">
+                    @if (isset($averages['sensors']['now'][$sensor->id]))
+                        <div class="col-sm-3">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Aktuálne hodnoty</h5>
+                                <p class="card-text">
+                                    <ul>
+                                        @if ($averages['sensors']['now'][$sensor->id]->pm10!=0)
+                                            <li>PM 10: <span class="badge @if ($averages['sensors']['now'][$sensor->id]->pm10>50) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['now'][$sensor->id]->pm10,2,',',' ')}} μg/m3</span></li>
+                                        @endif
+                                        @if ($averages['sensors']['now'][$sensor->id]->pm2_5!=0)
+                                            <li>PM 2,5: <span class="badge @if ($averages['sensors']['now'][$sensor->id]->pm2_5>25) badge-danger text-white @else badge-secondary @endif">{{number_format($averages['sensors']['now'][$sensor->id]->pm2_5,2,',',' ')}} μg/m3</span></li>
+                                        @endif
+                                        @if ($averages['sensors']['now'][$sensor->id]->temperature!=0)
+                                            <li>Teplota: <span class="badge badge-secondary">{{number_format($averages['sensors']['now'][$sensor->id]->temperature,2,',',' ')}} °C</span></li>
+                                        @endif
+                                        @if ($averages['sensors']['now'][$sensor->id]->humidity!=0)
+                                            <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['now'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
+                                        @endif
+                                        @if ($averages['sensors']['now'][$sensor->id]->pressure!=0)
+                                            <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['now'][$sensor->id]->pressure}}</span></li>
+                                        @endif
+                                    </ul>
+                                </p>
+                              </div>
+                            </div>
+                        </div>
+                    @endif
                     @if (isset($averages['sensors']['today'][$sensor->id]))
                         <div class="col-sm-3">
                             <div class="card">

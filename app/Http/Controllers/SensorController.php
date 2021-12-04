@@ -52,11 +52,11 @@ class SensorController extends Controller
                 $pm10 = $item->value;
             } elseif ($item->value_type == 'SDS_P2') {
                 $pm2_5 = $item->value;
-            } elseif ($item->value_type == 'temperature') {
+            } elseif (stripos($item->value_type, 'temperature') !== false) {
                 $temperature = $item->value;
-            } elseif ($item->value_type == 'humidity') {
+            } elseif (stripos($item->value_type, 'humidity') !== false) {
                 $humidity = $item->value;
-            } elseif ($item->value_type == 'BMP_pressure') {
+            } elseif (stripos($item->value_type, 'pressure') !== false) {
                 $pressure = $item->value;
             }
         }
@@ -79,6 +79,7 @@ class SensorController extends Controller
         $current_from = Carbon::today()->startOfMonth()->subMonths(11);
         $sensors = Sensor::orderBy('location')->get()->keyBy('id');
         if (!Cache::has('averages')) {
+            $averages['sensors']['now'] = SensorsValue::where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('created_at', 'DESC')->first()->keyBy('sensor_id');
             $averages['sensors']['today'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today())->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['week'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subDays(6))->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['month'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subMonth())->groupBy('sensor_id')->get()->keyBy('sensor_id');
