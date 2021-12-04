@@ -79,7 +79,7 @@ class SensorController extends Controller
         $current_from = Carbon::today()->startOfMonth()->subMonths(11);
         $sensors = Sensor::orderBy('location')->get()->keyBy('id');
         if (!Cache::has('averages')) {
-            $averages['sensors']['now'] = SensorsValue::where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('created_at', 'DESC')->first()->keyBy('sensor_id');
+            $averages['sensors']['now'] = SensorsValue::where('pm2_5', '>', 0)->where('pm10', '>', 0)->orderBy('created_at', 'DESC')->take(1)->get()->keyBy('sensor_id');
             $averages['sensors']['today'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today())->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['week'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subDays(6))->groupBy('sensor_id')->get()->keyBy('sensor_id');
             $averages['sensors']['month'] = SensorsValue::selectRaw('sensor_id, AVG(pm2_5) as pm2_5, AVG(pm10) as pm10, AVG(temperature) as temperature, AVG(humidity) as humidity, AVG(pressure) as pressure')->where('pm2_5', '>', 0)->where('pm10', '>', 0)->where('created_at', '>=', Carbon::today()->subMonth())->groupBy('sensor_id')->get()->keyBy('sensor_id');
