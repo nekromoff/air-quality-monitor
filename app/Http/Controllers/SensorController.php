@@ -75,7 +75,7 @@ class SensorController extends Controller
     public function show(Request $request)
     {
         $previous_from = Carbon::today()->startOfMonth()->subMonths(23);
-        $previous_to = Carbon::today()->startOfMonth()->subMonths(12)->addDay(1);
+        $previous_to = Carbon::today()->startOfMonth()->subMonths(12)->endOfMonth()->addDay(1);
         $current_from = Carbon::today()->startOfMonth()->subMonths(11);
         $sensors = Sensor::orderBy('location')->get()->keyBy('id');
         if (!Cache::has('averages')) {
