@@ -115,7 +115,7 @@
                                             <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['now'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
                                         @endif
                                         @if ($averages['sensors']['now'][$sensor->id]->pressure!=0)
-                                            <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['now'][$sensor->id]->pressure}}</span></li>
+                                            <li>Tlak: <span class="badge badge-secondary">{{number_format($averages['sensors']['now'][$sensor->id]->pressure/100,2,',',' ')}} pa</span></li>
                                         @endif
                                     </ul>
                                 </p>
@@ -143,7 +143,7 @@
                                             <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['today'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
                                         @endif
                                         @if ($averages['sensors']['today'][$sensor->id]->pressure!=0)
-                                            <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['today'][$sensor->id]->pressure}}</span></li>
+                                            <li>Tlak: <span class="badge badge-secondary">{{number_format($averages['sensors']['today'][$sensor->id]->pressure/100,2,',',' ')}} pa</span></li>
                                         @endif
                                     </ul>
                                 </p>
@@ -171,7 +171,7 @@
                                             <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['week'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
                                         @endif
                                         @if ($averages['sensors']['week'][$sensor->id]->pressure!=0)
-                                            <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['week'][$sensor->id]->pressure}}</span></li>
+                                            <li>Tlak: <span class="badge badge-secondary">{{number_format($averages['sensors']['week'][$sensor->id]->pressure/100,2,',',' ')}} pa</span></li>
                                         @endif
                                     </ul>
                                 </p>
@@ -199,7 +199,7 @@
                                             <li>Vlhkosť: <span class="badge badge-secondary">{{number_format($averages['sensors']['month'][$sensor->id]->humidity,2,',',' ')}}%</span></li>
                                         @endif
                                         @if ($averages['sensors']['month'][$sensor->id]->pressure!=0)
-                                            <li>Tlak: <span class="badge badge-secondary">{{$averages['sensors']['month'][$sensor->id]->pressure}}</span></li>
+                                            <li>Tlak: <span class="badge badge-secondary">{{number_format($averages['sensors']['month'][$sensor->id]->pressure/100,2,',',' ')}} pa</span></li>
                                         @endif
                                     </ul>
                                 </p>
